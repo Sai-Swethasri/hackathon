@@ -21,7 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, RefreshCw, ArrowLeft } from "lucide-react";
+import { Leaf, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -44,8 +44,11 @@ export default function AuthPage() {
   const [captcha, setCaptcha] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
 
+  // ⭐ Username placeholder state
+  const [usernamePlaceholder, setUsernamePlaceholder] = useState("Enter username");
+
   const generateCaptcha = () => {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Removed confusing chars like I, 1, O, 0
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     let result = "";
     for (let i = 0; i < 5; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -53,7 +56,7 @@ export default function AuthPage() {
     setCaptcha(result);
   };
 
-  // Redirect if already logged in
+  // Redirect if logged in
   useEffect(() => {
     if (user) {
       setLocation(user.role === 'admin' ? '/admin' : '/dashboard');
@@ -63,6 +66,15 @@ export default function AuthPage() {
   useEffect(() => {
     generateCaptcha();
   }, []);
+
+  // ⭐ Change username placeholder when switching login/signup
+  useEffect(() => {
+    if (isSignUp) {
+      setUsernamePlaceholder("Choose a username");
+    } else {
+      setUsernamePlaceholder("Enter username");
+    }
+  }, [isSignUp]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -95,14 +107,14 @@ export default function AuthPage() {
         return;
       }
     }
-    
+
     if (isSignUp) {
-        toast({
-            title: "Account Created!",
-            description: "Welcome to GreenSteps. You are now logged in.",
-        });
+      toast({
+        title: "Account Created!",
+        description: "Welcome to GreenSteps. You are now logged in.",
+      });
     }
-    
+
     login(values.username, role);
   }
 
@@ -115,7 +127,9 @@ export default function AuthPage() {
           </div>
           <h1 className="text-2xl font-heading font-bold">Welcome to GreenSteps</h1>
           <p className="text-muted-foreground">
-            {isSignUp ? "Create an account to start your journey" : "Log in to continue your sustainable journey"}
+            {isSignUp
+              ? "Create an account to start your journey"
+              : "Log in to continue your sustainable journey"}
           </p>
         </div>
 
@@ -123,17 +137,19 @@ export default function AuthPage() {
           <CardHeader>
             <CardTitle>{isSignUp ? "Create Account" : "Login"}</CardTitle>
             <CardDescription>
-              {isSignUp 
-                ? "Enter a username and password to get started." 
+              {isSignUp
+                ? "Enter a username and password to get started."
                 : "Enter your username and password to access your account."}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {isSignUp ? (
-              // Sign Up Form (Student Only)
+              // SIGNUP FORM
               <div className="space-y-4">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit((v) => onSubmit(v, 'student'))} className="space-y-4">
+                  <form onSubmit={form.handleSubmit((v) => onSubmit(v, "student"))} className="space-y-4">
+
+                    {/* Username */}
                     <FormField
                       control={form.control}
                       name="username"
@@ -141,12 +157,14 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input placeholder="Choose a username" {...field} />
+                            <Input placeholder={usernamePlaceholder} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
+                    {/* Password */}
                     <FormField
                       control={form.control}
                       name="password"
@@ -160,7 +178,8 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
-                    
+
+                    {/* CAPTCHA */}
                     <FormField
                       control={form.control}
                       name="captcha"
@@ -168,10 +187,16 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Enter Characters</FormLabel>
                           <div className="flex gap-2">
-                            <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl tracking-widest select-none min-w-[120px] bg-gradient-to-br from-gray-100 to-gray-200 border">
+                            <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl tracking-widest select-none min-w-[120px]">
                               {captcha}
                             </div>
-                            <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha} tabIndex={-1}>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              onClick={generateCaptcha}
+                              tabIndex={-1}
+                            >
                               <RefreshCw className="h-4 w-4" />
                             </Button>
                           </div>
@@ -188,27 +213,40 @@ export default function AuthPage() {
                     </Button>
                   </form>
                 </Form>
+
                 <div className="text-center text-sm">
-                   Already have an account?{" "}
-                   <button 
-                     onClick={() => setIsSignUp(false)} 
-                     className="font-semibold text-primary hover:underline"
-                   >
-                     Log in
-                   </button>
+                  Already have an account?{" "}
+                  <button
+                    onClick={() => setIsSignUp(false)}
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    Log in
+                  </button>
                 </div>
               </div>
             ) : (
-              // Login Tabs
-              <Tabs defaultValue="student" className="w-full">
+              // LOGIN FORM WITH TABS
+              <Tabs
+                defaultValue="student"
+                className="w-full"
+                onValueChange={(tab) => {
+                  setUsernamePlaceholder(
+                    tab === "admin" ? "Enter admin username" : "Enter student username"
+                  );
+                }}
+              >
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="student">Student</TabsTrigger>
                   <TabsTrigger value="admin">Admin</TabsTrigger>
                 </TabsList>
 
+                {/* STUDENT LOGIN */}
                 <TabsContent value="student">
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit((v) => onSubmit(v, 'student'))} className="space-y-4">
+                    <form
+                      onSubmit={form.handleSubmit((v) => onSubmit(v, "student"))}
+                      className="space-y-4"
+                    >
                       <FormField
                         control={form.control}
                         name="username"
@@ -216,12 +254,13 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Username</FormLabel>
                             <FormControl>
-                              <Input placeholder="student123" {...field} />
+                              <Input placeholder={usernamePlaceholder} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="password"
@@ -229,13 +268,13 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                              <Input type="password" placeholder="Enter password here" {...field} />
+                              <Input type="password" placeholder="Enter password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={form.control}
                         name="captcha"
@@ -243,10 +282,10 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Enter Characters</FormLabel>
                             <div className="flex gap-2">
-                              <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl tracking-widest select-none min-w-[120px] bg-gradient-to-br from-gray-100 to-gray-200 border">
+                              <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl">
                                 {captcha}
                               </div>
-                              <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha} tabIndex={-1}>
+                              <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha}>
                                 <RefreshCw className="h-4 w-4" />
                               </Button>
                             </div>
@@ -263,20 +302,25 @@ export default function AuthPage() {
                       </Button>
                     </form>
                   </Form>
+
                   <div className="mt-4 text-center text-sm">
-                    New student?{" "}
-                    <button 
-                      onClick={() => setIsSignUp(true)} 
+                    New here?{" "}
+                    <button
+                      onClick={() => setIsSignUp(true)}
                       className="font-semibold text-primary hover:underline"
                     >
-                      Create an account
+                      Create account
                     </button>
                   </div>
                 </TabsContent>
 
+                {/* ADMIN LOGIN */}
                 <TabsContent value="admin">
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit((v) => onSubmit(v, 'admin'))} className="space-y-4">
+                    <form
+                      onSubmit={form.handleSubmit((v) => onSubmit(v, "admin"))}
+                      className="space-y-4"
+                    >
                       <FormField
                         control={form.control}
                         name="username"
@@ -284,12 +328,13 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Username</FormLabel>
                             <FormControl>
-                              <Input placeholder="admin" {...field} />
+                              <Input placeholder={usernamePlaceholder} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="password"
@@ -297,7 +342,7 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                              <Input type="password" placeholder="Enter password here" {...field} />
+                              <Input type="password" placeholder="Enter password" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -311,10 +356,10 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Enter Characters</FormLabel>
                             <div className="flex gap-2">
-                              <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl tracking-widest select-none min-w-[120px] bg-gradient-to-br from-gray-100 to-gray-200 border">
+                              <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-xl">
                                 {captcha}
                               </div>
-                              <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha} tabIndex={-1}>
+                              <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha}>
                                 <RefreshCw className="h-4 w-4" />
                               </Button>
                             </div>
