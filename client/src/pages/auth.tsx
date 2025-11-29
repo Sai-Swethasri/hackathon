@@ -21,8 +21,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf } from "lucide-react";
-import { useEffect } from "react";
+import { Leaf, RefreshCw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -31,14 +32,22 @@ const formSchema = z.object({
   password: z.string().min(4, {
     message: "Password must be at least 4 characters.",
   }),
+  captcha: z.string().min(1, {
+    message: "Please solve the math problem.",
+  }),
 });
-
-import { useToast } from "@/hooks/use-toast";
 
 export default function AuthPage() {
   const { login, user } = useStore();
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
+  const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, answer: 0 });
+
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10);
+    const num2 = Math.floor(Math.random() * 10);
+    setCaptcha({ num1, num2, answer: num1 + num2 });
+  };
 
   // Redirect if already logged in
   useEffect(() => {
@@ -47,15 +56,31 @@ export default function AuthPage() {
     }
   }, [user, setLocation]);
 
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
       password: "",
+      captcha: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>, role: 'student' | 'admin') {
+    if (parseInt(values.captcha) !== captcha.answer) {
+      toast({
+        variant: "destructive",
+        title: "Incorrect Captcha",
+        description: "Please check your math and try again.",
+      });
+      generateCaptcha();
+      form.setValue("captcha", "");
+      return;
+    }
+
     if (role === 'admin') {
       if (values.username !== 'adim123' || values.password !== 'admin') {
         toast({
@@ -125,6 +150,30 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
+                    
+                    {/* Captcha Field */}
+                    <FormField
+                      control={form.control}
+                      name="captcha"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Human Verification</FormLabel>
+                          <div className="flex gap-2">
+                            <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-lg select-none min-w-[80px]">
+                              {captcha.num1} + {captcha.num2} = ?
+                            </div>
+                            <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha} tabIndex={-1}>
+                              <RefreshCw className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <FormControl>
+                            <Input placeholder="Enter answer" {...field} type="number" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <Button type="submit" className="w-full text-base">
                       Login as Student
                     </Button>
@@ -161,6 +210,30 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
+
+                    {/* Captcha Field */}
+                    <FormField
+                      control={form.control}
+                      name="captcha"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Human Verification</FormLabel>
+                          <div className="flex gap-2">
+                            <div className="flex items-center justify-center bg-muted px-4 py-2 rounded-md font-mono font-bold text-lg select-none min-w-[80px]">
+                              {captcha.num1} + {captcha.num2} = ?
+                            </div>
+                            <Button type="button" variant="ghost" size="icon" onClick={generateCaptcha} tabIndex={-1}>
+                              <RefreshCw className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <FormControl>
+                            <Input placeholder="Enter answer" {...field} type="number" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <Button type="submit" className="w-full text-base" variant="secondary">
                       Login as Admin
                     </Button>
