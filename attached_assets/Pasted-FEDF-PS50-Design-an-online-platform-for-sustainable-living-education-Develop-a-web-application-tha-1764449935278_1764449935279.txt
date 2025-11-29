@@ -1,0 +1,346 @@
+FEDF-PS50: Design an online platform for sustainable living education
+
+Develop a web application that educates students about sustainable living practices. The platform should offer interactive lessons, project ideas, and resources on topics like renewable energy, waste reduction, and eco-friendly lifestyle choices to encourage environmentally responsible behavior.
+
+Admin: Manage educational content, update sustainability resources, track user engagement.
+
+User: Access lessons on sustainable living, participate in projects, track progress towards eco-friendly goals.
+
+Design and generate a complete, modern, responsive web application called “GreenSteps – Sustainable Living Classroom”.
+
+1. Purpose & Audience
+
+Purpose: Educate students about sustainable living and motivate them to take real eco-friendly actions in their daily life.
+
+Audience: School and college students who are beginners in sustainability and want simple, practical guidance.
+
+
+2. User Roles
+
+1. Admin
+
+Manage and create educational content (lessons, quizzes, projects).
+
+Update sustainability resources (articles, links, PDFs, videos).
+
+View and track user engagement (no need for real backend, just design dashboards and UI).
+
+
+
+2. Student/User
+
+Explore interactive lessons on sustainable living.
+
+Browse and join sustainability project ideas.
+
+Track personal progress towards eco-friendly goals.
+
+
+
+
+3. Overall Style & Theme
+
+Design Style: Clean, modern, student-friendly.
+
+Mood: Positive, hopeful, action-oriented (not scary or negative).
+
+Color Palette: Greens, soft blues, and neutral whites with good contrast.
+
+Imagery/Icons: Trees, leaves, solar panels, recycling symbols, earth, water, minimal line icons.
+
+Typography: Use a modern sans-serif font that is easy to read.
+
+
+4. Main Pages / Screens
+
+4.1 Landing Page (Home)
+
+Sections to include:
+
+Hero Section:
+
+Title: “Learn Sustainable Living, One Green Step at a Time”
+
+Subtitle: “Interactive lessons, eco-projects, and resources that help students build a sustainable lifestyle.”
+
+Call-to-Action Buttons: “Start Learning” and “Browse Projects”.
+
+Background illustration or image related to nature, renewable energy, and students learning.
+
+
+Key Features Section:
+
+Cards showing:
+
+“Interactive Lessons”
+
+“Eco Project Ideas”
+
+“Goal Tracking & Badges”
+
+“Up-to-date Sustainability Resources”
+
+
+
+How It Works Section (3 steps):
+
+Step 1: “Create your profile”
+
+Step 2: “Learn through short lessons”
+
+Step 3: “Take action and track your impact”
+
+
+Featured Topics Section:
+
+Renewable Energy
+
+Waste Reduction
+
+Eco-friendly Lifestyle
+
+Water Conservation
+
+
+Student Impact Section:
+
+Simple stats or progress indicators (e.g., “Total projects started”, “Plastic bottles saved”, “Trees planted”) – just as UI elements, no real data needed.
+
+
+Footer:
+
+About, Contact, Privacy, Terms
+
+Social icons placeholders (Instagram, YouTube, etc.)
+
+
+
+4.2 Lessons Page
+
+Design a “Lessons” page for students:
+
+Sidebar or filter bar with categories:
+
+“Renewable Energy”
+
+“Waste Reduction”
+
+“Eco-friendly Lifestyle”
+
+“Water & Energy Conservation”
+
+“Sustainable Food & Farming”
+
+
+Grid or list of lessons:
+
+Each lesson card should show:
+
+Title, short description
+
+Difficulty level (Beginner / Intermediate)
+
+Estimated time (e.g., 10 min)
+
+A “Start Lesson” button
+
+
+
+Inside a lesson detail page:
+
+Lesson title and clear content layout (text, images/diagrams placeholders)
+
+Key learning objectives (bullet points)
+
+Optional interactive elements section (e.g., quiz questions block, “Try this at home” activity box)
+
+
+
+4.3 Projects Page (Eco Projects)
+
+Design a “Projects & Activities” page:
+
+Intro text: “Apply what you learn through real-world sustainability projects.”
+
+Project cards with:
+
+Project Title (e.g., “Zero-Waste Week Challenge”, “Campus Tree Plantation”, “DIY Home Composting”, “Energy Audit of Your Classroom”)
+
+Short description
+
+Duration (e.g., 7 days, 2 weeks)
+
+Difficulty level
+
+“View Project” button
+
+
+Project detail page layout:
+
+Overview
+
+Step-by-step instructions
+
+Materials needed
+
+Expected impact (e.g., “Estimated waste reduced”, “CO₂ saved” – as text, not real numbers)
+
+A space to mark project as “Started” or “Completed” (just UI toggle/button).
+
+
+
+4.4 Resources Page
+
+Design a “Resources” page where admins can curate content:
+
+Sections or tabs:
+
+Articles & Guides
+
+Videos & Documentaries
+
+Downloadable PDFs
+
+External Useful Links (NGOs, Govt portals, open data)
+
+
+Each item card: title, short description, tag (e.g., “Beginner”, “Advanced”), “Open” button.
+
+
+4.5 Student Dashboard (User View)
+
+Create a student dashboard screen after login:
+
+Welcome message with student’s name placeholder (e.g., “Hi, [Name]! Ready for your next green step?”)
+
+Panels/widgets:
+
+“Your Current Lessons” – list of ongoing lessons with progress bar.
+
+“Your Eco-Goals” – simple progress bars for:
+
+Reduce plastic use
+
+Save electricity
+
+Eat more plant-based meals
+
+
+“Badges & Achievements” – visual badges like:
+
+“Waste Warrior”
+
+“Energy Saver”
+
+“Green Ambassador”
+
+
+“Recent Activity” – list of last completed lessons or projects.
+
+
+
+4.6 Admin Dashboard (Admin View)
+
+Create a separate Admin Dashboard UI (can be a different page or layout):
+
+Sidebar menu:
+
+Dashboard Overview
+
+Manage Lessons
+
+Manage Projects
+
+Manage Resources
+
+User Engagement / Analytics
+
+
+Main dashboard widgets:
+
+Total registered students
+
+Most popular lessons
+
+Most completed projects
+
+Graph or chart placeholder for user engagement over time.
+
+
+Management pages:
+
+Manage Lessons: table/list of all lessons with buttons for Add, Edit, Delete.
+
+Manage Projects: table/list with the same pattern.
+
+Manage Resources: list of resource items with Add/Edit/Delete UI.
+
+
+Focus on clean UI with clear buttons and forms (no actual backend needed, just the design).
+
+
+5. Navigation
+
+Create a consistent top navigation bar with:
+
+Logo: “GreenSteps”
+
+Menu links:
+
+Home
+
+Lessons
+
+Projects
+
+Resources
+
+About
+
+
+Right side: “Login” / “Sign Up” buttons.
+
+
+For logged-in students:
+
+Replace with: “Dashboard” and a profile avatar.
+
+
+For admins (in admin layout):
+
+Show an “Admin Panel” label and profile/avatar.
+
+
+6. Accessibility & Responsiveness
+
+Design should be:
+
+Fully responsive for desktop, tablet, and mobile.
+
+Use readable font sizes and proper contrast.
+
+Clear button states (hover, active).
+
+Simple, intuitive layouts – suitable for students.
+
+
+
+7. Content Tone
+
+Use simple, encouraging language.
+
+Avoid jargon, explain concepts in a student-friendly way.
+
+Focus on practical, everyday tips (e.g., saving electricity at home, reducing plastic, mindful water use).
+
+
+8. Output
+
+Generate:
+
+All the main pages listed above.
+
+Sample placeholder content for lessons, projects, and resources.
+
+A consistent, professional visual style across the whole site.            
+i want in login page just username and password,in admin pannel i want an application ,it can add  lessons and remove lessons,it should add resources and remove resources,it should add add project and remove project,moreover in user application it should show some guide when we click on the lessons,projects,dashboard,resourse.everything should work properly
