@@ -41,19 +41,6 @@ export default function Home() {
                 alt="Students learning about sustainability" 
                 className="rounded-[2rem] shadow-2xl w-full object-cover aspect-[4/3] border-4 border-white"
               />
-              
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-border animate-bounce duration-[3000ms]">
-                <div className="flex items-center gap-3">
-                  <div className="bg-green-100 p-2 rounded-full">
-                    <Trophy className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground font-semibold uppercase">Impact Made</p>
-                    <p className="font-bold text-lg">1,250+ Trees Saved</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

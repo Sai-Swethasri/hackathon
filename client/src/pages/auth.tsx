@@ -33,8 +33,11 @@ const formSchema = z.object({
   }),
 });
 
+import { useToast } from "@/hooks/use-toast";
+
 export default function AuthPage() {
   const { login, user } = useStore();
+  const { toast } = useToast();
   const [_, setLocation] = useLocation();
 
   // Redirect if already logged in
@@ -53,6 +56,16 @@ export default function AuthPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>, role: 'student' | 'admin') {
+    if (role === 'admin') {
+      if (values.username !== 'adim123' || values.password !== 'admin') {
+        toast({
+          variant: "destructive",
+          title: "Invalid Credentials",
+          description: "Please check your username and password.",
+        });
+        return;
+      }
+    }
     login(values.username, role);
   }
 
@@ -106,7 +119,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••" {...field} />
+                            <Input type="password" placeholder="Enter password here" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -142,7 +155,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••" {...field} />
+                            <Input type="password" placeholder="Enter password here" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
